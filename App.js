@@ -34,7 +34,7 @@ export default function App() {
       }catch(e){}
     }
   }
-  
+
   return (
     <View style={styles.container}>
       <Text style={styles.display}>{display}</Text>
@@ -78,13 +78,13 @@ const styles = StyleSheet.create({
   display:{
     flex: 1,
     backgroundColor: '#EFEFEF',
-    fontSize: 80,
+    fontSize: 70,
     textAlign: 'right',
     paddingTop: 30,
     paddingRight: 10
   },
   result:{
-    flex: 0.4,
+    flex: 0.5,
     backgroundColor: '#EFEFEF',
     fontSize: 40,
     textAlign: 'right',
