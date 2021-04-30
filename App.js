@@ -1,8 +1,11 @@
-import * as React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import React, { useState } from "react";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
 export default function App() {
-  const char = [
+  const [display, setDisplay] = useState('')
+  const [result, setResult] = useState('')
+
+  const char1 = [
     ['1','2','3'],
     ['4','5','6'],
     ['7','8','9'],
@@ -10,108 +13,56 @@ export default function App() {
   ]
 
   const char2 = ['C','/','*','-','+']
+
+
+  const handleOp = (val) => {
+    if(val === 'C'){
+      setDisplay('')
+      setResult('')
+    }else if(val === '='){
+      setDisplay(result)
+      setResult('')      
+    }else{
+      setDisplay(display + val)
+      let dis = display + val
+
+      let result = ''
+
+      try{
+        result = new String(eval(dis.split(',').join('.'))).toString()
+        setResult(result)
+      }catch(e){}
+    }
+  }
+  
   return (
     <View style={styles.container}>
-      <Text style={styles.display}>Display</Text>
-      <Text style={styles.result}>Result</Text>
+      <Text style={styles.display}>{display}</Text>
+      <Text style={styles.result}>{result}</Text>
       <View style={styles.buttons}>
         <View style={styles.col1}>
-          {char.map(lin => {
+          {char1.map(lin => {
               return(
-                <View style={styles.line}>
+                <View key={lin} style={styles.line}>
                   {lin.map(val => {
                     return(
-                      <View style={styles.btn}>
+                      <TouchableOpacity key={val} style={styles.btn} onPress={() => handleOp(val)}>
                         <Text style={styles.btnText}>{val}</Text>
-                      </View>
+                      </TouchableOpacity>
                     )      
                   })}
                 </View>
               )    
             })}
-          {
-          /* <View style={styles.line}>
-            <View style={styles.btn}>
-              <Text style={styles.btnText}>1</Text>
-            </View>
-            <View style={styles.btn}>
-              <Text style={styles.btnText}>2</Text>
-            </View>
-            <View style={styles.btn}>
-              <Text style={styles.btnText}>3</Text>
-            </View>
-          </View>
-          <View style={styles.line}>
-            <View style={styles.btn}>
-              <Text style={styles.btnText}>4</Text>
-            </View>
-            <View style={styles.btn}>
-              <Text style={styles.btnText}>5</Text>
-            </View>
-            <View style={styles.btn}>
-              <Text style={styles.btnText}>6</Text>
-            </View>
-          </View>
-          <View style={styles.line}>
-            <View style={styles.btn}>
-              <Text style={styles.btnText}>7</Text>
-            </View>
-            <View style={styles.btn}>
-              <Text style={styles.btnText}>8</Text>
-            </View>
-            <View style={styles.btn}>
-              <Text style={styles.btnText}>9</Text>
-            </View>
-          </View>
-          <View style={styles.line}>
-            <View style={styles.btn}>
-              <Text style={styles.btnText}>,</Text>
-            </View>
-            <View style={styles.btn}>
-              <Text style={styles.btnText}>0</Text>
-            </View>
-            <View style={styles.btn}>
-              <Text style={styles.btnText}>=</Text>
-            </View>
-          </View> */
-          }
         </View>
         <View style={styles.col2}>
         {char2.map(val => {
             return(
-              <View style={styles.btn}>
+              <TouchableOpacity key={val} style={styles.btn} onPress={() => handleOp(val)}>
                 <Text style={styles.btnText}>{val}</Text>
-              </View>
+              </TouchableOpacity>
             )      
           })}
-          
-          {
-          /* <View style={styles.line}>
-            <View style={styles.btn}>
-              <Text style={styles.btnText}>C</Text>
-            </View>
-          </View>
-          <View style={styles.line}>
-            <View style={styles.btn}>
-              <Text style={styles.btnText}>/</Text>
-            </View>
-          </View>
-          <View style={styles.line}>
-            <View style={styles.btn}>
-              <Text style={styles.btnText}>*</Text>
-            </View>
-          </View>
-          <View style={styles.line}>
-            <View style={styles.btn}>
-              <Text style={styles.btnText}>-</Text>
-            </View>
-          </View>
-          <View style={styles.line}>
-            <View style={styles.btn}>
-              <Text style={styles.btnText}>+</Text>
-            </View>
-          </View> */
-          }
         </View>
       </View>
     </View>
@@ -150,7 +101,7 @@ const styles = StyleSheet.create({
   },
   col2:{
     flex: 1,
-    backgroundColor: 'red'
+    backgroundColor: '#0b0b0b'
   },
   btn:{
     flex: 1,
@@ -158,7 +109,8 @@ const styles = StyleSheet.create({
   },
   btnText:{
     textAlign: 'center',
-    fontSize: 50
+    fontSize: 50,
+    color: '#fff'
   },
   line:{
     flex: 1,
